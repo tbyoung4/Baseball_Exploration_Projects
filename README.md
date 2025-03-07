@@ -5,4 +5,4 @@ Each file will contain one to two questions that will be answered using a known 
 
 Description of uploads
 
-Baseball_1: glm model looking at playoff teams vs popualtion of baseball team utiliing no packages in R
+Baseball_1: glm model looking at playoff teams vs popualtion of baseball team utilizing no packages in R
