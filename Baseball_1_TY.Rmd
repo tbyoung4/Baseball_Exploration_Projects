@@ -1,0 +1,35 @@
+---
+title: "Baseball_1"
+author: "Thomas Young"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Question about baseball from stats book using minimal packages
+
+Chapter 6 of Bradbury (2007), a book on baseball, uses regression analysis to compare the success of the 30 Major League Baseball teams. For example, the author considers the relationship between x i , market size (i.e., the population in millions of the city associated with each team) and Y i , the number of times team i made the post-season playoffs in the m i =10 seasons between 1995 and 2004. Chapter 6 of Bradbury (2007), a book on baseball, uses regression analysis to compare the success of the 30 Major League Baseball teams. For example, the author considers the relationship between x i , market size (i.e., the population in millions of the city associated with each team) and Y i , the number of times team i made the post-season playoffs in the m i =10 seasons between 1995 and 2004.
+
+```{r}
+# Read in data set and look at plot
+playoffs<- read.table("https://gattonweb.uky.edu//sheather//book//docs//datasets//playoffs.txt",
+                      header=TRUE)
+
+plot(PlayoffAppearances~Population,data=playoffs,xlab="x, Population (in millions)"
+     , ylab="Y, Playoff Appearances (in 10 seasons)")
+```
+
+We can see a major concern that there looks to be a moderate level of linear correlation between Population and Playoff. Another concern is the distribution does not look  normal which violates our assumptions. One way we can check this to to make a model 
+
+```{r}
+# Make a model and check for evidence of a relationship
+m1 = glm(PlayoffAppearances ~ Population, data = playoffs)
+summary(m1)
+```
+
+Our test statistic (0.1311) fails to reject the null hypothesis. There is not enough evidence to suggest there is a relationship between Y and x, meaning playoff appearance and population of the baseball city. The residual deviance is also very large so the model is not the best fit. 
+
