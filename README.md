@@ -7,3 +7,4 @@ Each file will contain one to two questions that will be answered using a known 
 
 Baseball_1: glm model looking at playoff teams vs popualtion of baseball team
   - No packages needed to run .rmd file
+  - Avaliable as pdf if needed
