@@ -13,3 +13,4 @@ Baseball_1: RStudio glm model looking at playoff teams vs popualtion of baseball
   - Packages are all specificed in the script but are also listed below:
       - Operating System, Pandas, Numpy, Matplotlib, Seaborn
   - Script was created by following along in a presentation by Nick Wan at the 2025 SABR Analytics Conference
+  - Avaliable as both a py and ipynb
