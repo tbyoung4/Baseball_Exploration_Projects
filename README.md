@@ -15,7 +15,7 @@ Baseball_1: RStudio glm model looking at playoff teams vs popualtion of baseball
   - Script was created by following along in a presentation by Nick Wan at the 2025 SABR Analytics Conference
   - Avaliable as both a py and ipynb
 
-Baseball_2: RSudio using Kaggle Data looking at All-Star games for best player / starting position from 1990-2000.
+Baseball_2: RStudio using Kaggle Data looking at All-Star games for best player / starting position from 1990-2000
   - Packages are all loaded in the .rmd script and listed below:
     - tidyverse, httr, jsonlite, baseballr, RCurl, Lahman
   - Avaliable as pdf if needed
