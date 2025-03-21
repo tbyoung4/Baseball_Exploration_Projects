@@ -1,0 +1,79 @@
+---
+title: "Baseball_2"
+author: "Thomas Young"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+Question: Which players started the most All-Star games at each position over a specified time period (e.g., 1990-2000)?
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(baseballr)
+library(RCurl)
+library(Lahman)
+
+url <- "https://www.kaggle.com/api/v1/datasets/download/open-source-sports/baseball-databank/AllstarFull.csv"
+
+kaggle_username <- "your_kaggle_username" # for replicability
+kaggle_key <- "your_kaggle_key" # for replicability
+headers <- add_headers(Authorization = paste("username", kaggle_username, "key", kaggle_key, sep = ":"))
+
+# Download directly
+response <- GET(url, headers)
+allstar_data <- read.csv(text = content(response, "text"))
+
+# View data
+glimpse(allstar_data)
+```
+
+```{r}
+# get people data
+data(People)
+```
+
+```{r}
+# Filter Data 
+start_year <- 1990
+end_year <- 2000
+filtered_df <- allstar_data |>  filter(yearID >= start_year & yearID <= end_year)
+```
+
+```{r}
+# Group players
+starts_by_player_position <- filtered_df |> 
+  group_by(playerID, startingPos) |> 
+  summarize(total_starts = sum(GP)) |> 
+  ungroup()  
+```
+
+```{r}
+# Top Starters 
+top_starters <- starts_by_player_position |> 
+  group_by(startingPos) |> 
+  filter(total_starts == max(total_starts)) |> 
+  ungroup()  
+
+top_starters
+```
+
+```{r}
+# Join top starts 
+people_subset <- People |>  select(playerID, nameFirst, nameLast)
+
+top_starters_with_names <- top_starters |> 
+  right_join(people_subset, by = "playerID") |> 
+  mutate(playerName = paste(nameFirst, nameLast)) |> 
+  select(playerID, playerName, everything()) |> 
+  select(-nameFirst, -nameLast) # Remove unnecessary columns
+
+# Print the updated table
+print(top_starters_with_names)
+```
+
