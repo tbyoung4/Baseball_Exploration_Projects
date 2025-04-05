@@ -19,3 +19,8 @@ Baseball_2: RStudio using Kaggle Data looking at All-Star games for best player 
   - Packages are all loaded in the .rmd script and listed below:
     - tidyverse, httr, jsonlite, baseballr, RCurl, Lahman
   - Avaliable as pdf if needed
+
+Baseball_3: RStudio using Kaggle Data looking at Hitters data set from 1986-1987 to create and interpret a regression tree
+  - Packages are all loaded in the .rmd script and listed below:
+    - tidyverse, regclass, rpart, rpart.plot
+  - Avaliable as pdf if needed
