@@ -29,3 +29,8 @@ Baseball_4: RStudio using Kaggle Data looking at Hitters data set from 1986-1987
   - Packages are all loaded in the .rmd script and listed below:
     - tidyverse, regclass, rpart, rpart.plot
   - Avaliable as pdf if needed
+
+Baseball_5: RStudio using Kaggle Data looking at Hitters data set from 1986-1987 to create and interpret CARTs vs Random Forests 
+  - Packages are all loaded in the .rmd script and listed below:
+    - tidyverse, regclass, rpart, rpart.plot
+  - Avaliable as pdf if needed
