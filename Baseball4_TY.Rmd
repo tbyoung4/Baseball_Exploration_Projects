@@ -1,0 +1,101 @@
+---
+title: "Baseball4_TY"
+author: "Thomas Young"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(regclass) # to visualize the model
+library(rpart) # to fit a decision tree
+library(rpart.plot) # For visualizing the tree
+```
+
+## Load Hitters DATA
+
+Hitters Data Set from Kaggle: <https://www.kaggle.com/datasets/floser/hitters>
+
+```{r cars}
+hitters <- read_csv("Hitters.csv")
+
+# clean
+hitters <- hitters |>  drop_na()
+
+# Create variable for log salary 
+hitters <- hitters |>  mutate(LogSalary = log(Salary))
+```
+
+## Build with full data set 
+
+```{r}
+set.seed(123)
+tree_model <- rpart(LogSalary ~ ., data = hitters, 
+                   control = rpart.control(cp = 0.01))
+
+# Visualize the full tree
+rpart.plot(tree_model, extra = 101) # extra=101 for node labels
+```
+
+```{r}
+summary(tree_model)
+
+# Performance
+r_squared <- 1 - (sum((hitters$LogSalary - predict(tree_model, hitters))^2) / 
+                   sum((hitters$LogSalary - mean(hitters$LogSalary))^2))
+print(r_squared)
+```
+## Interpretation 
+
+- The tree begins with 263 observations (players) and the root node (Node 1) has a predicted average LogSalary of 5.927.
+- The primary split is based on Salary < 333.3335.
+  - If a player's salary is less than 333.3335, they go to Node 2.
+  - If their salary is greater than or equal to 333.3335, they go to Node 3.
+  
+Branch 1: Lower Salaries (Node 2, Node 4, Node 5, Node 10, Node 11)
+
+Node 2: This node contains 112 players with lower salaries (predicted LogSalary = 5.048).
+- Split: The next split is based on Salary < 147.5.
+  - If salary is less than 147.5, go to Node 4.
+  - If salary is greater than or equal to 147.5, go to Node 5.
+  
+Node 4: This is a terminal node with 49 players and a predicted LogSalary of 4.581. These are likely players with very low salaries.
+
+Node 5: This node contains 63 players with slightly higher salaries (predicted LogSalary = 5.410).
+- Split: Further split based on Salary < 220.
+  - If salary is less than 220, go to Node 10.
+  - If salary is greater than or equal to 220, go to Node 11.
+
+Node 10: Terminal node with 30 players and predicted LogSalary = 5.202.
+
+Node 11: Terminal node with 33 players and predicted LogSalary = 5.599.
+
+Branch 2: Higher Salaries (Node 3, Node 6, Node 7, Node 12, Node 13, Node 14, Node 15)
+
+Node 3: This node contains 151 players with higher salaries (predicted LogSalary = 6.579).
+- Split: Based on Salary < 807.5.
+  - If salary is less than 807.5, go to Node 6.
+  - If salary is greater than or equal to 807.5, go to Node 7.
+  
+Node 6: 98 players (predicted LogSalary = 6.313).
+- Split: Based on Salary < 542.5.
+  - If salary is less than 542.5, go to Node 12.
+  - If salary is greater than or equal to 542.5, go to Node 13.
+  
+Node 12: Terminal node with 46 players and predicted LogSalary = 6.071.
+
+Node 13: Terminal node with 52 players and predicted LogSalary = 6.528.
+
+Node 7: 53 players (predicted LogSalary = 7.072).
+- Split: Based on Salary < 1400.
+  - If salary is less than 1400, go to Node 14.
+  - If salary is greater than or equal to 1400, go to Node 15.
+  
+Node 14: Terminal node with 40 players and predicted LogSalary = 6.922.
+
+Node 15: Terminal node with 13 players and predicted LogSalary = 7.534. These are likely players with the highest salaries.
+
+The tree primarily uses the Salary variable to make splits, suggesting it's a strong predictor of LogSalary. As you move down the branches, the predicted LogSalary values generally increase, reflecting the salary-based splits
+
+Overall performance of this model was 97% 
