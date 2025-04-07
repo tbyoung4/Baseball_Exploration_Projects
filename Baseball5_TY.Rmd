@@ -1,0 +1,77 @@
+---
+title: "Baseball5_TY"
+author: "Thomas Young"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(randomForest)
+library(regclass) 
+library(rpart) 
+library(rpart.plot) 
+```
+
+## Load Hitters DATA
+
+Hitters Data Set from Kaggle: <https://www.kaggle.com/datasets/floser/hitters>
+
+```{r cars}
+hitters <- read_csv("Hitters.csv")
+
+# clean
+hitters <- hitters |>  drop_na()
+
+# Create variable for log salary 
+hitters <- hitters |>  mutate(LogSalary = log(Salary))
+```
+
+## Build models 
+
+```{r}
+set.seed(123)
+tree_model <- rpart(LogSalary ~ ., data = hitters, 
+                   control = rpart.control(cp = 0.01))
+
+rf_model <- randomForest(LogSalary ~ ., data = hitters)
+
+# Visualize the full tree
+rpart.plot(tree_model, extra = 101) # extra=101 for node labels
+print(rf_model)
+```
+
+## Check Performance
+
+```{r}
+# CART R-squared
+r_squared <- 1 - (sum((hitters$LogSalary - predict(tree_model, hitters))^2) / 
+                   sum((hitters$LogSalary - mean(hitters$LogSalary))^2))
+
+# Random forest R-squared
+r_squared_rf <- 1 - (sum((hitters$LogSalary - predict(rf_model, hitters))^2) / 
+                       sum((hitters$LogSalary - mean(hitters$LogSalary))^2))
+
+# Compare R-squared values
+print(paste("Regression Tree R-squared:", r_squared))
+print(paste("Random Forest R-squared:", r_squared_rf))
+```
+
+```{r}
+# CART RMSE 
+rmse <- sqrt(mean((hitters$LogSalary - predict(tree_model, hitters))^2))
+
+# # Random forest RMSE
+rmse_rf <- sqrt(mean((hitters$LogSalary - predict(rf_model, hitters))^2))
+
+# Compare RMSE values
+print(paste("Regression Tree RMSE:", rmse)) 
+print(paste("Random Forest RMSE:", rmse_rf))
+```
+
+## Interpretation 
+
+Lower RMSE is better: RMSE (Root Mean Squared Error) measures the average difference between the predicted values and the actual values. The random forest model had a lower RMSE indicates that the model's predictions are closer to the true values.
+
+Improvement in R-squared: The random forest model had a higher R-squared value than the regression tree, suggesting that it explains more of the variance in LogSalary
