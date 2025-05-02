@@ -1,7 +1,7 @@
 # Baseball Exploration Projects 
 This repository looks at baseball data from various sources that will be mentioned in the description
 
-Each file will contain one to two questions that will be answered using a known method in statistical analayis and will be updated weekly starting 3/7/25 with descriptions listed here:
+Each file will contain one to two questions that will be answered using a known method in statistical analayis
 
 # Description of uploads
 
