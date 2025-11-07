@@ -28,9 +28,13 @@ Baseball_3: RStudio using Kaggle Data looking at Hitters data set from 1986-1987
 Baseball_4: RStudio using Kaggle Data looking at Hitters data set from 1986-1987 to create and interpret a full regression tree
   - Packages are all loaded in the .rmd script and listed below:
     - tidyverse, regclass, rpart, rpart.plot
-  - Avaliable as pdf if needed
 
 Baseball_5: RStudio using Kaggle Data looking at Hitters data set from 1986-1987 to create and interpret CARTs vs Random Forests 
   - Packages are all loaded in the .rmd script and listed below:
     - tidyverse, regclass, rpart, rpart.plot
   - Avaliable as pdf if needed
+
+CMJ_Pitch_Template.xlxs: Pitch Template used for R Shiny Application 
+  - Sheet 1 shows data points for time normalized countermovement jumps
+  - Sheet 2 shows fastball average velocity for each subject
+  - Shiny app link: https://lnkd.in/ermbnNzH
